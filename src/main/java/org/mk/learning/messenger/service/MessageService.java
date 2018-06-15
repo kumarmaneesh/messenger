@@ -1,6 +1,7 @@
 package org.mk.learning.messenger.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.mk.learning.messenger.database.DatabaseClass;
@@ -9,6 +10,8 @@ import org.mk.learning.messenger.model.Message;
 public class MessageService {
 	
 	private Map<Long, Message> messages = DatabaseClass.getMessages();
+	//private Map<Long, Message> messages = new HashMap<>();
+
 	
 	public MessageService() {
 		messages.put(1L, new Message(1,"Hello World!","Maneesh"));

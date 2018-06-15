@@ -1,45 +1,57 @@
 package org.mk.learning.messenger.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.mk.learning.messenger.database.DatabaseClass;
 import org.mk.learning.messenger.model.Profile;
 
 public class ProfileService {
 	
-	private Map<Long, Profile> profiles = DatabaseClass.getProfiles();
+	private Map<String,Profile> profiles = DatabaseClass.getProfiles();
+	//private Map<String,Profile> profiles = new HashMap<>();
 
-	public ProfileService() {
-		profiles.put(1L, new Profile(1,"Maneesh","Maneesh", "Kumar"));
-		profiles.put(2L, new Profile(2,"MK","Mike","Killer"));
-	}
 	
+	public ProfileService() {
+		profiles.put("Maneesh", new Profile(1,"Maneesh", "Maneesh","Kumar"));
+		profiles.put("Alex", new Profile(2,"Alex", "Alex","Dsouza"));
+		profiles.put("Bob", new Profile(3,"Bob", "Bob","Boon"));
+		profiles.put("Charlie", new Profile(4,"Charlie", "Charlie","Brown"));
+	}
 	
 	public List<Profile> getAllProfiles(){
 		return new ArrayList<Profile>(profiles.values());
 	}
-
-	//method to get a particular profile
-	public Profile getProfile(long id) {
-		return profiles.get(id);
+	
+	public Profile getProfile(String profileName){
+		if(profiles.containsKey(profileName))
+			return profiles.get(profileName);
+		else
+			return null;
 	}
 	
-	//method to update a particular profile
-	public Profile updateProfile(long id, Profile pf) {
-		return profiles.put(id, pf);
+	public Profile addProfile(Profile profile) {
+		profile.setId(profiles.size()+1);
+		profiles.put(profile.getProfileName(), profile);
+		return profile;
 	}
 	
-	//method to delete a particular profile
-	public Profile removeProfile(long id) {
-		return profiles.remove(id);
+	public Profile updateProfile(String profileName, Profile profile) {
+		if(profiles.containsKey(profileName))
+		{
+			profile.setId(profiles.get(profileName).getId());
+			profiles.put(profileName, profile);
+			return profile;
+		}
+		else 
+			return null;
+	}
+	
+	public void removeProfile(String profileName) {
+		if(profiles.containsKey(profileName))
+			profiles.remove(profileName);
 	}
 
-	//method to add a profile
-	public Profile addProfile(Profile pf) {
-		pf.setId(profiles.size()+1);
-		profiles.put(pf.getId(),pf);
-		return pf;
-		
-	}	
 }
